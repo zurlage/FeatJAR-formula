@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2025 FeatJAR-Development-Team
  *
- * This file is part of FeatJAR-formula.
+ * This file is part of FeatJAR-FeatJAR-formula.
  *
- * formula is free software: you can redistribute it and/or modify it
+ * FeatJAR-formula is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3.0 of the License,
  * or (at your option) any later version.
  *
- * formula is distributed in the hope that it will be useful,
+ * FeatJAR-formula is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with formula. If not, see <https://www.gnu.org/licenses/>.
+ * along with FeatJAR-formula. If not, see <https://www.gnu.org/licenses/>.
  *
  * See <https://github.com/FeatureIDE/FeatJAR-formula> for further information.
  */
@@ -27,6 +27,7 @@ import de.featjar.base.io.format.ParseProblem;
 import de.featjar.base.io.input.AInputMapper;
 import de.featjar.base.io.output.AOutputMapper;
 import de.featjar.formula.VariableMap;
+import de.featjar.formula.assignment.ABooleanAssignmentList;
 import de.featjar.formula.assignment.BooleanAssignment;
 import de.featjar.formula.assignment.BooleanAssignmentGroups;
 import de.featjar.formula.assignment.BooleanAssignmentList;
@@ -65,9 +66,9 @@ public class BooleanAssignmentGroupsCompressedFormat extends ABinaryFormat<Boole
         for (int i = 1; i <= maxIndex; i++) {
             writeString(outputStream, variableMap.get(i).orElse(""));
         }
-        final List<BooleanAssignmentList> groups = assignmentSpace.getGroups();
+        final List<? extends ABooleanAssignmentList<? extends BooleanAssignment>> groups = assignmentSpace.getGroups();
         writeInt(outputStream, groups.size());
-        for (BooleanAssignmentList group : groups) {
+        for (ABooleanAssignmentList<? extends BooleanAssignment> group : groups) {
             writeInt(outputStream, group.size());
             for (BooleanAssignment assignment : group) {
                 final int[] literals = assignment.get();

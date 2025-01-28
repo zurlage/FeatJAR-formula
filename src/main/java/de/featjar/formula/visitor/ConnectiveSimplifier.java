@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2025 FeatJAR-Development-Team
  *
- * This file is part of FeatJAR-formula.
+ * This file is part of FeatJAR-FeatJAR-formula.
  *
- * formula is free software: you can redistribute it and/or modify it
+ * FeatJAR-formula is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3.0 of the License,
  * or (at your option) any later version.
  *
- * formula is distributed in the hope that it will be useful,
+ * FeatJAR-formula is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with formula. If not, see <https://www.gnu.org/licenses/>.
+ * along with FeatJAR-formula. If not, see <https://www.gnu.org/licenses/>.
  *
  * See <https://github.com/FeatureIDE/FeatJAR-formula> for further information.
  */
@@ -115,18 +115,6 @@ public class ConnectiveSimplifier implements ITreeVisitor<IFormula, Void> {
         return newFormula;
     }
 
-    private void atMostOneRec(List<? extends IFormula> elements, List<IFormula> groupedElements) {
-        final int n = elements.size();
-        if (n > 1) {
-            int half = n / 2;
-            List<? extends IFormula> left = elements.subList(0, half);
-            List<? extends IFormula> right = elements.subList(half, n);
-            atMostOneRec(left, groupedElements);
-            atMostOneRec(right, groupedElements);
-            groupedElements.add(new Or(new And(left), new And(right)));
-        }
-    }
-
     private List<IFormula> atMostK(List<? extends IFormula> elements, int k) {
         final int n = elements.size();
 
@@ -140,14 +128,7 @@ public class ConnectiveSimplifier implements ITreeVisitor<IFormula, Void> {
             return Collections.singletonList(Expressions.True);
         }
 
-        List<Not> negatedElements = elements.stream().map(Not::new).collect(Collectors.toList());
-        if (k == 1) {
-            final List<IFormula> groupedElements = new ArrayList<>(n - 1);
-            atMostOneRec(negatedElements, groupedElements);
-            return groupedElements;
-        } else {
-            return groupElements(negatedElements, k, n);
-        }
+        return groupElements(elements.stream().map(Not::new).collect(Collectors.toList()), k, n);
     }
 
     private List<IFormula> atLeastK(List<? extends IFormula> elements, int k) {

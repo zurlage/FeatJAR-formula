@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2025 FeatJAR-Development-Team
  *
- * This file is part of FeatJAR-formula.
+ * This file is part of FeatJAR-FeatJAR-formula.
  *
- * formula is free software: you can redistribute it and/or modify it
+ * FeatJAR-formula is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3.0 of the License,
  * or (at your option) any later version.
  *
- * formula is distributed in the hope that it will be useful,
+ * FeatJAR-formula is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with formula. If not, see <https://www.gnu.org/licenses/>.
+ * along with FeatJAR-formula. If not, see <https://www.gnu.org/licenses/>.
  *
  * See <https://github.com/FeatureIDE/FeatJAR-formula> for further information.
  */
@@ -26,12 +26,13 @@ import de.featjar.base.io.NonEmptyLineIterator;
 import de.featjar.base.io.format.IFormat;
 import de.featjar.base.io.format.ParseProblem;
 import de.featjar.base.io.input.AInputMapper;
-import de.featjar.base.io.input.InputHeader;
 import de.featjar.base.io.output.AOutputMapper;
 import de.featjar.formula.VariableMap;
+import de.featjar.formula.assignment.ABooleanAssignmentList;
 import de.featjar.formula.assignment.BooleanAssignment;
 import de.featjar.formula.assignment.BooleanAssignmentGroups;
 import de.featjar.formula.assignment.BooleanAssignmentList;
+import de.featjar.formula.assignment.BooleanSolution;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -56,13 +57,13 @@ public class BooleanAssignmentGroupsCSVFormat implements IFormat<BooleanAssignme
     public void write(BooleanAssignmentGroups assignmentGroups, AOutputMapper outputMapper) throws IOException {
         final VariableMap variableMap = assignmentGroups.getVariableMap();
         final List<Pair<Integer, String>> namePairs = variableMap.stream().collect(Collectors.toList());
-        final List<BooleanAssignmentList> groups = assignmentGroups.getGroups();
+        final List<? extends ABooleanAssignmentList<? extends BooleanAssignment>> groups = assignmentGroups.getGroups();
 
         outputMapper.get().write(serializeHeader(namePairs));
 
         int groupIndex = 0;
         int assignmentIndex = 0;
-        for (BooleanAssignmentList group : groups) {
+        for (ABooleanAssignmentList<? extends BooleanAssignment> group : groups) {
             for (final BooleanAssignment assignment : group) {
                 outputMapper.get().write(serializeAssignment(namePairs, groupIndex, assignmentIndex, assignment));
                 assignmentIndex++;
@@ -75,14 +76,14 @@ public class BooleanAssignmentGroupsCSVFormat implements IFormat<BooleanAssignme
     public Result<String> serialize(BooleanAssignmentGroups assignmentGroups) {
         final VariableMap variableMap = assignmentGroups.getVariableMap();
         final List<Pair<Integer, String>> namePairs = variableMap.stream().collect(Collectors.toList());
-        final List<? extends BooleanAssignmentList> groups = assignmentGroups.getGroups();
+        final List<? extends ABooleanAssignmentList<? extends BooleanAssignment>> groups = assignmentGroups.getGroups();
 
         final StringBuilder csv = new StringBuilder();
         csv.append(serializeHeader(namePairs));
 
         int groupIndex = 0;
         int assignmentIndex = 0;
-        for (BooleanAssignmentList group : groups) {
+        for (ABooleanAssignmentList<? extends BooleanAssignment> group : groups) {
             for (final BooleanAssignment assignment : group) {
                 csv.append(serializeAssignment(namePairs, groupIndex, assignmentIndex, assignment));
                 assignmentIndex++;
@@ -186,12 +187,13 @@ public class BooleanAssignmentGroupsCSVFormat implements IFormat<BooleanAssignme
                             literals[i - 2] = -(i - 1);
                             break;
                         case NULL_VALUE:
+                            literals[i - 2] = 0;
                             break;
                         default:
                             throw new ParseException(String.format("Unknown value %s", value), lines.getLineCount());
                     }
                 }
-                group.add(new BooleanAssignment(literals));
+                group.add(new BooleanSolution(literals, false));
             }
             return Result.of(new BooleanAssignmentGroups(variableMap, groups));
         } catch (final ParseException e) {
@@ -204,15 +206,6 @@ public class BooleanAssignmentGroupsCSVFormat implements IFormat<BooleanAssignme
     @Override
     public String getFileExtension() {
         return "csv";
-    }
-
-    @Override
-    public boolean supportsContent(InputHeader inputHeader) {
-        StringBuilder header = new StringBuilder();
-        header.append(ASSIGNMENT_COLUMN_NAME);
-        header.append(VALUE_SEPARATOR);
-        header.append(GROUP_COLUMN_NAME);
-        return inputHeader.get().startsWith(header.toString());
     }
 
     @Override

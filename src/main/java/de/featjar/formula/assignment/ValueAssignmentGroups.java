@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2025 FeatJAR-Development-Team
  *
- * This file is part of FeatJAR-formula.
+ * This file is part of FeatJAR-FeatJAR-formula.
  *
- * formula is free software: you can redistribute it and/or modify it
+ * FeatJAR-formula is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3.0 of the License,
  * or (at your option) any later version.
  *
- * formula is distributed in the hope that it will be useful,
+ * FeatJAR-formula is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with formula. If not, see <https://www.gnu.org/licenses/>.
+ * along with FeatJAR-formula. If not, see <https://www.gnu.org/licenses/>.
  *
  * See <https://github.com/FeatureIDE/FeatJAR-formula> for further information.
  */
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Stores multiple groups of {@link ValueAssignmentList}.
+ * Stores multiple groups of {@link AValueAssignmentList}.
  * The main purposes of this class is to provide an easy to write/read object for a corresponding {@link IFormat format}.
  *
  * @author Sebastian Krieter
@@ -34,14 +34,15 @@ import java.util.Objects;
 public class ValueAssignmentGroups {
 
     protected final VariableMap variableMap;
-    protected final List<? extends ValueAssignmentList> assignmentGroups;
+    protected final List<? extends AValueAssignmentList<? extends ValueAssignment>> assignmentGroups;
 
-    public ValueAssignmentGroups(VariableMap variableMap, List<? extends ValueAssignmentList> assignmentGroups) {
+    public ValueAssignmentGroups(
+            VariableMap variableMap, List<? extends AValueAssignmentList<? extends ValueAssignment>> assignmentGroups) {
         this.variableMap = variableMap;
         this.assignmentGroups = assignmentGroups;
     }
 
-    public ValueAssignmentGroups(ValueAssignmentList assignmentGroup) {
+    public ValueAssignmentGroups(AValueAssignmentList<? extends ValueAssignment> assignmentGroup) {
         this.variableMap = assignmentGroup.getVariableMap();
         this.assignmentGroups = List.of(assignmentGroup);
     }
@@ -59,11 +60,11 @@ public class ValueAssignmentGroups {
         return variableMap;
     }
 
-    public List<? extends ValueAssignmentList> getGroups() {
+    public List<? extends AValueAssignmentList<? extends ValueAssignment>> getGroups() {
         return assignmentGroups;
     }
 
-    public ValueAssignmentList getFirstGroup() {
+    public AValueAssignmentList<? extends ValueAssignment> getFirstGroup() {
         return assignmentGroups.get(0);
     }
 

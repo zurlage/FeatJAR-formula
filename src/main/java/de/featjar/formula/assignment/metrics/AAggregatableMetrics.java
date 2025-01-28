@@ -1,26 +1,26 @@
 /*
  * Copyright (C) 2025 FeatJAR-Development-Team
  *
- * This file is part of FeatJAR-formula.
+ * This file is part of FeatJAR-FeatJAR-formula.
  *
- * formula is free software: you can redistribute it and/or modify it
+ * FeatJAR-formula is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3.0 of the License,
  * or (at your option) any later version.
  *
- * formula is distributed in the hope that it will be useful,
+ * FeatJAR-formula is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with formula. If not, see <https://www.gnu.org/licenses/>.
+ * along with FeatJAR-formula. If not, see <https://www.gnu.org/licenses/>.
  *
  * See <https://github.com/FeatureIDE/FeatJAR-formula> for further information.
  */
 package de.featjar.formula.assignment.metrics;
 
-import de.featjar.formula.assignment.BooleanAssignmentList;
+import de.featjar.formula.assignment.BooleanSolutionList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +38,7 @@ public abstract class AAggregatableMetrics {
         }
 
         @Override
-        public double get(BooleanAssignmentList sample) {
+        public double get(BooleanSolutionList sample) {
             setSample(sample);
             return aggregate.getAsDouble();
         }
@@ -52,7 +52,7 @@ public abstract class AAggregatableMetrics {
     protected static final double EMPTY = -2;
     protected static final double INVALID = -1;
 
-    protected BooleanAssignmentList sample;
+    protected BooleanSolutionList sample;
 
     private double[] values = null;
 
@@ -85,7 +85,7 @@ public abstract class AAggregatableMetrics {
 
     protected abstract double[] computeValues();
 
-    public void setSample(BooleanAssignmentList sample) {
+    public void setSample(BooleanSolutionList sample) {
         if ((this.sample == null) || (this.sample != sample)) {
             this.sample = sample;
             reset();

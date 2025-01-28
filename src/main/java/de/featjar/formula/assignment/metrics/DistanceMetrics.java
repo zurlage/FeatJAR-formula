@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2025 FeatJAR-Development-Team
  *
- * This file is part of FeatJAR-formula.
+ * This file is part of FeatJAR-FeatJAR-formula.
  *
- * formula is free software: you can redistribute it and/or modify it
+ * FeatJAR-formula is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3.0 of the License,
  * or (at your option) any later version.
  *
- * formula is distributed in the hope that it will be useful,
+ * FeatJAR-formula is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with formula. If not, see <https://www.gnu.org/licenses/>.
+ * along with FeatJAR-formula. If not, see <https://www.gnu.org/licenses/>.
  *
  * See <https://github.com/FeatureIDE/FeatJAR-formula> for further information.
  */
@@ -57,10 +57,10 @@ public class DistanceMetrics extends AAggregatableMetrics {
         final double[] values = new double[(size * (size - 1)) >> 1];
         int index = 0;
         for (int i = 0; i < (size - 1); i++) {
-            final int[] literals1 = sample.get(i).get();
+            final int[] literals1 = sample.get(i).get().get();
             for (int j = i + 1; j < size; j++) {
                 values[index++] =
-                        function.computeDistance(literals1, sample.get(j).get());
+                        function.computeDistance(literals1, sample.get(j).get().get());
             }
         }
         return values;

@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2025 FeatJAR-Development-Team
  *
- * This file is part of FeatJAR-formula.
+ * This file is part of FeatJAR-FeatJAR-formula.
  *
- * formula is free software: you can redistribute it and/or modify it
+ * FeatJAR-formula is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3.0 of the License,
  * or (at your option) any later version.
  *
- * formula is distributed in the hope that it will be useful,
+ * FeatJAR-formula is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with formula. If not, see <https://www.gnu.org/licenses/>.
+ * along with FeatJAR-formula. If not, see <https://www.gnu.org/licenses/>.
  *
  * See <https://github.com/FeatureIDE/FeatJAR-formula> for further information.
  */
@@ -22,32 +22,33 @@ package de.featjar.formula.assignment;
 
 import de.featjar.base.io.format.IFormat;
 import de.featjar.formula.VariableMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Stores multiple groups of {@link BooleanAssignmentList}.
+ * Stores multiple groups of {@link ABooleanAssignmentList}.
  * The main purposes of this class is to provide an easy to write/read object for a corresponding {@link IFormat format}.
  *
  * @author Sebastian Krieter
  */
-public class BooleanAssignmentGroups implements Iterable<BooleanAssignmentList> {
+public class BooleanAssignmentGroups {
 
     protected final VariableMap variableMap;
-    protected final List<BooleanAssignmentList> assignmentGroups;
+    protected final List<? extends ABooleanAssignmentList<? extends BooleanAssignment>> assignmentGroups;
 
-    public BooleanAssignmentGroups(VariableMap variableMap, List<BooleanAssignmentList> assignmentGroups) {
+    public BooleanAssignmentGroups(
+            VariableMap variableMap, List<? extends ABooleanAssignmentList<?>> assignmentGroups) {
         this.variableMap = variableMap;
         this.assignmentGroups = assignmentGroups;
     }
 
-    public BooleanAssignmentGroups(VariableMap variableMap, BooleanAssignmentList assignmentGroup) {
+    public BooleanAssignmentGroups(
+            VariableMap variableMap, ABooleanAssignmentList<? extends BooleanAssignment> assignmentGroup) {
         this.variableMap = variableMap;
         this.assignmentGroups = List.of(assignmentGroup);
     }
 
-    public BooleanAssignmentGroups(BooleanAssignmentList assignmentGroup) {
+    public BooleanAssignmentGroups(ABooleanAssignmentList<? extends BooleanAssignment> assignmentGroup) {
         this.variableMap = assignmentGroup.getVariableMap();
         this.assignmentGroups = List.of(assignmentGroup);
     }
@@ -65,27 +66,27 @@ public class BooleanAssignmentGroups implements Iterable<BooleanAssignmentList> 
         return variableMap;
     }
 
-    public List<BooleanAssignmentList> getGroups() {
+    public List<? extends ABooleanAssignmentList<? extends BooleanAssignment>> getGroups() {
         return assignmentGroups;
     }
 
-    public BooleanAssignmentList getFirstGroup() {
+    public ABooleanAssignmentList<? extends BooleanAssignment> getFirstGroup() {
         return assignmentGroups.get(0);
     }
 
-    public BooleanAssignmentList toClauseList() {
+    public BooleanClauseList toClauseList() {
         return toClauseList(0);
     }
 
-    public BooleanAssignmentList toSolutionList() {
+    public BooleanSolutionList toSolutionList() {
         return toSolutionList(0);
     }
 
-    public BooleanAssignmentList toClauseList(int groupIndex) {
+    public BooleanClauseList toClauseList(int groupIndex) {
         return assignmentGroups.get(groupIndex).toClauseList();
     }
 
-    public BooleanAssignmentList toSolutionList(int groupIndex) {
+    public BooleanSolutionList toSolutionList(int groupIndex) {
         return assignmentGroups.get(groupIndex).toSolutionList();
     }
 
@@ -110,10 +111,5 @@ public class BooleanAssignmentGroups implements Iterable<BooleanAssignmentList> 
     @Override
     public String toString() {
         return "AssignmentGroup [map=" + variableMap + ", groups=" + assignmentGroups + "]";
-    }
-
-    @Override
-    public Iterator<BooleanAssignmentList> iterator() {
-        return assignmentGroups.iterator();
     }
 }

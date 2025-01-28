@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2025 FeatJAR-Development-Team
  *
- * This file is part of FeatJAR-formula.
+ * This file is part of FeatJAR-FeatJAR-formula.
  *
- * formula is free software: you can redistribute it and/or modify it
+ * FeatJAR-formula is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3.0 of the License,
  * or (at your option) any later version.
  *
- * formula is distributed in the hope that it will be useful,
+ * FeatJAR-formula is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with formula. If not, see <https://www.gnu.org/licenses/>.
+ * along with FeatJAR-formula. If not, see <https://www.gnu.org/licenses/>.
  *
  * See <https://github.com/FeatureIDE/FeatJAR-formula> for further information.
  */
@@ -31,8 +31,8 @@ import java.util.stream.Stream;
 /**
  * A list of assignments.
  * Represents a list of assignments (e.g., {@link IClause clauses} or {@link ISolution solutions}) in a {@link ISolver}.
- * For a propositional implementation, see {@link BooleanAssignmentList},
- * for a first-order implementation.
+ * For a propositional implementation, see {@link ABooleanAssignmentList},
+ * for a first-order implementation, see {@link AValueAssignmentList}.
  * If {@code T} refers to a {@link IClause} type, the list usually represents a conjunctive normal form (CNF).
  * If {@code T} refers to a {@link ISolution} type, the list usually represents a disjunctive normal form (DNF).
  *
@@ -89,7 +89,7 @@ public interface IAssignmentList<T extends IAssignment<?, ?>> extends Iterable<T
      * @see IAssignment#print()
      */
     default String print() {
-        return stream().map(IAssignment::print).collect(Collectors.joining(";\n"));
+        return getAll().stream().map(IAssignment::print).collect(Collectors.joining(";\n"));
     }
 
     /**
@@ -97,20 +97,9 @@ public interface IAssignmentList<T extends IAssignment<?, ?>> extends Iterable<T
      *
      * @param index the index
      */
-    default T get(int index) {
-        if (index < 0 || index >= size()) throw new IndexOutOfBoundsException(index);
-        return getAll().get(index);
-    }
-
-    /**
-     * Replaces the assignment at the given index in this list with the given assignment.
-     *
-     * @param index the index
-     * @param assignment the assignment
-     */
-    default void set(int index, T assignment) {
-        if (index < 0 || index > size()) throw new IllegalArgumentException();
-        getAll().set(index, assignment);
+    default Result<T> get(int index) {
+        if (index < 0 || index >= size()) return Result.empty();
+        return Result.of(getAll().get(index));
     }
 
     /**
