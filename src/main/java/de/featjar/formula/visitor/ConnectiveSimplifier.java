@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -115,18 +115,6 @@ public class ConnectiveSimplifier implements ITreeVisitor<IFormula, Void> {
         return newFormula;
     }
 
-    private void atMostOneRec(List<? extends IFormula> elements, List<IFormula> groupedElements) {
-        final int n = elements.size();
-        if (n > 1) {
-            int half = n / 2;
-            List<? extends IFormula> left = elements.subList(0, half);
-            List<? extends IFormula> right = elements.subList(half, n);
-            atMostOneRec(left, groupedElements);
-            atMostOneRec(right, groupedElements);
-            groupedElements.add(new Or(new And(left), new And(right)));
-        }
-    }
-
     private List<IFormula> atMostK(List<? extends IFormula> elements, int k) {
         final int n = elements.size();
 
@@ -140,14 +128,7 @@ public class ConnectiveSimplifier implements ITreeVisitor<IFormula, Void> {
             return Collections.singletonList(Expressions.True);
         }
 
-        List<Not> negatedElements = elements.stream().map(Not::new).collect(Collectors.toList());
-        if (k == 1) {
-            final List<IFormula> groupedElements = new ArrayList<>(n - 1);
-            atMostOneRec(negatedElements, groupedElements);
-            return groupedElements;
-        } else {
-            return groupElements(negatedElements, k, n);
-        }
+        return groupElements(elements.stream().map(Not::new).collect(Collectors.toList()), k, n);
     }
 
     private List<IFormula> atLeastK(List<? extends IFormula> elements, int k) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -40,7 +40,7 @@ public class CountMetrics extends AAggregatableMetrics {
         final int size = sample.size();
         final double[] values = new double[size];
         for (int i = 0; i < (size - 1); i++) {
-            values[i] = function.compute(sample.get(i));
+            values[i] = function.compute(sample.get(i).get());
         }
         return values;
     }

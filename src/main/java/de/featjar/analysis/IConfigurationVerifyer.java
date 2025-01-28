@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -20,10 +20,10 @@
  */
 package de.featjar.analysis;
 
-import de.featjar.formula.assignment.BooleanAssignment;
+import de.featjar.formula.assignment.BooleanSolution;
 
 @FunctionalInterface
 public interface IConfigurationVerifyer {
 
-    int test(BooleanAssignment configuration);
+    int test(BooleanSolution configuration);
 }

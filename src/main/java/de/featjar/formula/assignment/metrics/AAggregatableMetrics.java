@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -20,7 +20,7 @@
  */
 package de.featjar.formula.assignment.metrics;
 
-import de.featjar.formula.assignment.BooleanAssignmentList;
+import de.featjar.formula.assignment.BooleanSolutionList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +38,7 @@ public abstract class AAggregatableMetrics {
         }
 
         @Override
-        public double get(BooleanAssignmentList sample) {
+        public double get(BooleanSolutionList sample) {
             setSample(sample);
             return aggregate.getAsDouble();
         }
@@ -52,7 +52,7 @@ public abstract class AAggregatableMetrics {
     protected static final double EMPTY = -2;
     protected static final double INVALID = -1;
 
-    protected BooleanAssignmentList sample;
+    protected BooleanSolutionList sample;
 
     private double[] values = null;
 
@@ -85,7 +85,7 @@ public abstract class AAggregatableMetrics {
 
     protected abstract double[] computeValues();
 
-    public void setSample(BooleanAssignmentList sample) {
+    public void setSample(BooleanSolutionList sample) {
         if ((this.sample == null) || (this.sample != sample)) {
             this.sample = sample;
             reset();

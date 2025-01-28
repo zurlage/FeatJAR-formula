@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -27,6 +27,7 @@ import de.featjar.base.io.format.ParseProblem;
 import de.featjar.base.io.input.AInputMapper;
 import de.featjar.base.io.output.AOutputMapper;
 import de.featjar.formula.VariableMap;
+import de.featjar.formula.assignment.ABooleanAssignmentList;
 import de.featjar.formula.assignment.BooleanAssignment;
 import de.featjar.formula.assignment.BooleanAssignmentGroups;
 import de.featjar.formula.assignment.BooleanAssignmentList;
@@ -65,9 +66,9 @@ public class BooleanAssignmentGroupsCompressedFormat extends ABinaryFormat<Boole
         for (int i = 1; i <= maxIndex; i++) {
             writeString(outputStream, variableMap.get(i).orElse(""));
         }
-        final List<BooleanAssignmentList> groups = assignmentSpace.getGroups();
+        final List<? extends ABooleanAssignmentList<? extends BooleanAssignment>> groups = assignmentSpace.getGroups();
         writeInt(outputStream, groups.size());
-        for (BooleanAssignmentList group : groups) {
+        for (ABooleanAssignmentList<? extends BooleanAssignment> group : groups) {
             writeInt(outputStream, group.size());
             for (BooleanAssignment assignment : group) {
                 final int[] literals = assignment.get();

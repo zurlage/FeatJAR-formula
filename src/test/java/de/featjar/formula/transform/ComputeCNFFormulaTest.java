@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -37,6 +37,13 @@ import de.featjar.formula.VariableMap;
 import de.featjar.formula.computation.ComputeCNFFormula;
 import de.featjar.formula.computation.ComputeNNFFormula;
 import de.featjar.formula.structure.IFormula;
+import de.featjar.formula.structure.connective.AtLeast;
+import de.featjar.formula.structure.connective.AtMost;
+import de.featjar.formula.structure.connective.Between;
+import de.featjar.formula.structure.connective.Choose;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import org.junit.jupiter.api.Test;
 
@@ -54,10 +61,57 @@ class ComputeCNFFormulaTest extends Common {
 
     @Test
     public void toCNF() {
+    	List<IFormula> groupLiterals = new ArrayList<>();
+        groupLiterals.add(literal("a"));
+        groupLiterals.add(literal("b"));
+        groupLiterals.add(literal("c"));
+        
         TransformationTest.traverseAndAssertFormulaEquals(
-                or(and(literal("a"), literal("b")), and(literal("c"))),
+        		or(and(literal("a"), literal("b")), and(literal("c"))),
                 this::toCNF,
                 and(or(literal("c"), literal("b")), or(literal("c"), literal("a"))));
+
+        TransformationTest.traverseAndAssertFormulaEquals(
+                new AtLeast(1, groupLiterals),
+                this::toCNF, 
+                and(or(literal("a"), literal("b"), literal("c"))));
+
+        TransformationTest.traverseAndAssertFormulaEquals(
+                new AtLeast(2, groupLiterals),
+                this::toCNF, 
+                and(or(literal("a"), literal("b")), or(literal("a"), literal("c")), or(literal("b"), literal("c"))));
+
+        TransformationTest.traverseAndAssertFormulaEquals(
+                new AtMost(1, groupLiterals),
+                this::toCNF, 
+                and(or(literal(false, "a"), literal(false, "b")), 
+                    or(literal(false, "a"), literal(false, "c")),
+                    or(literal(false, "b"), literal(false, "c"))));
+
+        TransformationTest.traverseAndAssertFormulaEquals(
+                new AtMost(2, groupLiterals),
+                this::toCNF, 
+                and(or(literal(false, "a"), literal(false, "b"), literal(false, "c"))));
+        
+        TransformationTest.traverseAndAssertFormulaEquals(
+        		new Choose(1, groupLiterals),
+        		this::toCNF, 
+        		and(or(literal("a"), literal("b"), literal("c")),
+        			or(literal(false, "a"), literal(false, "b")), 
+            		or(literal(false, "a"), literal(false, "c")),  
+            		or(literal(false, "b"), literal(false, "c"))));
+        
+        TransformationTest.traverseAndAssertFormulaEquals(
+        		new Choose(2, groupLiterals),
+        		this::toCNF, 
+        		and(or(literal("a"), literal("b")), or(literal("a"), literal("c")), or(literal("b"), literal("c")),
+        			or(literal(false, "a"), literal(false, "b"), literal(false, "c"))));
+        
+        TransformationTest.traverseAndAssertFormulaEquals(
+        		new Between(1, 2, groupLiterals),
+        		this::toCNF, 
+        		and(or(literal("a"), literal("b"), literal("c")),
+        			or(literal(false, "a"), literal(false, "b"), literal(false, "c"))));
     }
 
     @Test

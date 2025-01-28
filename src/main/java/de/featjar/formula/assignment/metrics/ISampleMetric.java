@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -20,7 +20,7 @@
  */
 package de.featjar.formula.assignment.metrics;
 
-import de.featjar.formula.assignment.BooleanAssignmentList;
+import de.featjar.formula.assignment.BooleanSolutionList;
 import java.util.List;
 
 /**
@@ -30,12 +30,12 @@ import java.util.List;
  */
 public interface ISampleMetric {
 
-    double get(BooleanAssignmentList sample);
+    double get(BooleanSolutionList sample);
 
-    default double[] get(List<BooleanAssignmentList> sampleList) {
+    default double[] get(List<BooleanSolutionList> sampleList) {
         final double[] values = new double[sampleList.size()];
         int index = 0;
-        for (final BooleanAssignmentList sample : sampleList) {
+        for (final BooleanSolutionList sample : sampleList) {
             values[index++] = get(sample);
         }
         return values;

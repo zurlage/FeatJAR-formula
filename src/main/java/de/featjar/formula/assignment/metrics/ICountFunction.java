@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -20,7 +20,7 @@
  */
 package de.featjar.formula.assignment.metrics;
 
-import de.featjar.formula.assignment.BooleanAssignment;
+import de.featjar.formula.assignment.BooleanSolution;
 
 /**
  * Computes the count of some property within a literal array (e.g., number of
@@ -30,7 +30,7 @@ import de.featjar.formula.assignment.BooleanAssignment;
  */
 public interface ICountFunction {
 
-    double compute(final BooleanAssignment literals);
+    double compute(final BooleanSolution literals);
 
     String getName();
 }

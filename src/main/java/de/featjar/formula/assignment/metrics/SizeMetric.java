@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -20,7 +20,7 @@
  */
 package de.featjar.formula.assignment.metrics;
 
-import de.featjar.formula.assignment.BooleanAssignmentList;
+import de.featjar.formula.assignment.BooleanSolutionList;
 
 /**
  * Computes the size of a sample.
@@ -30,7 +30,7 @@ import de.featjar.formula.assignment.BooleanAssignmentList;
 public class SizeMetric implements ISampleMetric {
 
     @Override
-    public double get(BooleanAssignmentList sample) {
+    public double get(BooleanSolutionList sample) {
         return sample.size();
     }
 

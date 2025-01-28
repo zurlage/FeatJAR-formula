@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -30,7 +30,6 @@ import de.featjar.formula.assignment.BooleanAssignmentGroups;
  * @author Sebastian Krieter
  */
 public class BooleanAssignmentGroupsFormats extends AFormats<BooleanAssignmentGroups> {
-
     public static BooleanAssignmentGroupsFormats getInstance() {
         return FeatJAR.extensionPoint(BooleanAssignmentGroupsFormats.class);
     }

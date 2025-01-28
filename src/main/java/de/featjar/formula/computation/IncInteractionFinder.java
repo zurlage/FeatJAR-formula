@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -25,8 +25,8 @@ import de.featjar.analysis.IConfigurationVerifyer;
 import de.featjar.base.data.IntegerList;
 import de.featjar.base.data.LexicographicIterator;
 import de.featjar.formula.assignment.BooleanAssignment;
-import de.featjar.formula.assignment.BooleanAssignmentList;
 import de.featjar.formula.assignment.BooleanSolution;
+import de.featjar.formula.assignment.BooleanSolutionList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -77,7 +77,7 @@ public class IncInteractionFinder {
         this.configurationVerificationLimit = configurationVerificationLimit;
     }
 
-    public void addConfigurations(BooleanAssignmentList configurations) {
+    public void addConfigurations(BooleanSolutionList configurations) {
         configurations.forEach(this::verify);
     }
 
@@ -285,18 +285,18 @@ public class IncInteractionFinder {
     }
 
     protected Map<Boolean, List<int[]>> group(List<int[]> list, final BooleanSolution newConfig) {
-        return list.stream()
+        return list.parallelStream()
                 .collect(Collectors.groupingByConcurrent(
                         i -> newConfig.containsAll(i), Collectors.toCollection(ArrayList::new)));
     }
 
-    protected boolean verify(BooleanAssignment solution) {
+    protected boolean verify(BooleanSolution solution) {
         verifyCounter++;
         if (verifier.test(solution) == 0) {
-            succeedingConfs.add(solution.toSolution());
+            succeedingConfs.add(solution);
             return true;
         } else {
-            failingConfs.add(solution.toSolution());
+            failingConfs.add(solution);
             return false;
         }
     }

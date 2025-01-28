@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -59,7 +59,7 @@ public class ComputeBooleanRepresentation extends AComputation<BooleanAssignment
         if (formula instanceof Reference) {
             formula = (IFormula) ((Reference) formula).getExpression();
         }
-        return ComputeBooleanClauseList.toBooleanAssignmentList(formula, variableMap)
+        return ComputeBooleanClauseList.toBooleanClauseList(formula, variableMap)
                 .map(BooleanAssignmentGroups::new);
     }
 }

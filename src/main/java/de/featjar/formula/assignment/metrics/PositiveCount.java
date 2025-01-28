@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -20,7 +20,7 @@
  */
 package de.featjar.formula.assignment.metrics;
 
-import de.featjar.formula.assignment.BooleanAssignment;
+import de.featjar.formula.assignment.BooleanSolution;
 
 /**
  * Computes the number of positive literals in a solution.
@@ -30,7 +30,7 @@ import de.featjar.formula.assignment.BooleanAssignment;
 public class PositiveCount implements ICountFunction {
 
     @Override
-    public double compute(BooleanAssignment literals) {
+    public double compute(BooleanSolution literals) {
         return (double) literals.countPositives() / literals.size();
     }
 

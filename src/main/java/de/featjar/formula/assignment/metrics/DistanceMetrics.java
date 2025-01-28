@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -57,10 +57,10 @@ public class DistanceMetrics extends AAggregatableMetrics {
         final double[] values = new double[(size * (size - 1)) >> 1];
         int index = 0;
         for (int i = 0; i < (size - 1); i++) {
-            final int[] literals1 = sample.get(i).get();
+            final int[] literals1 = sample.get(i).get().get();
             for (int j = i + 1; j < size; j++) {
                 values[index++] =
-                        function.computeDistance(literals1, sample.get(j).get());
+                        function.computeDistance(literals1, sample.get(j).get().get());
             }
         }
         return values;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -30,7 +30,6 @@ import de.featjar.formula.structure.IFormula;
  * @author Sebastian Krieter
  */
 public class FormulaFormats extends AFormats<IFormula> {
-
     public static FormulaFormats getInstance() {
         return FeatJAR.extensionPoint(FormulaFormats.class);
     }

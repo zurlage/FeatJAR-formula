@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Stores multiple groups of {@link ValueAssignmentList}.
+ * Stores multiple groups of {@link AValueAssignmentList}.
  * The main purposes of this class is to provide an easy to write/read object for a corresponding {@link IFormat format}.
  *
  * @author Sebastian Krieter
@@ -34,14 +34,15 @@ import java.util.Objects;
 public class ValueAssignmentGroups {
 
     protected final VariableMap variableMap;
-    protected final List<? extends ValueAssignmentList> assignmentGroups;
+    protected final List<? extends AValueAssignmentList<? extends ValueAssignment>> assignmentGroups;
 
-    public ValueAssignmentGroups(VariableMap variableMap, List<? extends ValueAssignmentList> assignmentGroups) {
+    public ValueAssignmentGroups(
+            VariableMap variableMap, List<? extends AValueAssignmentList<? extends ValueAssignment>> assignmentGroups) {
         this.variableMap = variableMap;
         this.assignmentGroups = assignmentGroups;
     }
 
-    public ValueAssignmentGroups(ValueAssignmentList assignmentGroup) {
+    public ValueAssignmentGroups(AValueAssignmentList<? extends ValueAssignment> assignmentGroup) {
         this.variableMap = assignmentGroup.getVariableMap();
         this.assignmentGroups = List.of(assignmentGroup);
     }
@@ -59,11 +60,11 @@ public class ValueAssignmentGroups {
         return variableMap;
     }
 
-    public List<? extends ValueAssignmentList> getGroups() {
+    public List<? extends AValueAssignmentList<? extends ValueAssignment>> getGroups() {
         return assignmentGroups;
     }
 
-    public ValueAssignmentList getFirstGroup() {
+    public AValueAssignmentList<? extends ValueAssignment> getFirstGroup() {
         return assignmentGroups.get(0);
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FeatJAR-Development-Team
+ * Copyright (C) 2024 FeatJAR-Development-Team
  *
  * This file is part of FeatJAR-formula.
  *
@@ -170,11 +170,6 @@ public class BooleanSolution extends BooleanAssignment implements ISolution<Inte
     }
 
     @Override
-    public BooleanSolution toSolution(int variableCount) {
-        return variableCount == elements.length ? this : super.toSolution(variableCount);
-    }
-
-    @Override
     public BooleanAssignment toAssignment() {
         return new BooleanAssignment(IntStream.of(elements).filter(l -> l != 0).toArray());
     }
@@ -185,54 +180,7 @@ public class BooleanSolution extends BooleanAssignment implements ISolution<Inte
     }
 
     @Override
-    public BooleanSolution clone() {
-        return new BooleanSolution(this);
-    }
-
-    @Override
-    public BooleanSolution adapt(VariableMap oldVariableMap, VariableMap newVariableMap) {
-        return adapt(oldVariableMap, newVariableMap, false);
-    }
-
-    @Override
-    public BooleanSolution adapt(
-            VariableMap oldVariableMap, VariableMap newVariableMap, boolean integrateOldVariables) {
-        if (integrateOldVariables) {
-            throw new IllegalArgumentException("Dynamic extension of variable map not allowed for BooleanSolution.");
-        }
-        int[] newElements = new int[newVariableMap.getVariableCount()];
-        adapt(elements, newElements, oldVariableMap, newVariableMap, integrateOldVariables);
-        return new BooleanSolution(newElements);
-    }
-
-    @Override
     public BooleanSolution inverse() {
         return new BooleanSolution(negate(), false);
-    }
-
-    /**
-     * Set all elements that are currently 0 to their index + 1.
-     * @return this solution, does not return a copy
-     */
-    public BooleanSolution setUndefined() {
-        for (int i = 0; i < elements.length; i++) {
-            if (elements[i] == 0) {
-                elements[i] = i + 1;
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Set all elements that are currently 0 to -(their index + 1).
-     * @return this solution, does not return a copy
-     */
-    public BooleanSolution unsetUndefined() {
-        for (int i = 0; i < elements.length; i++) {
-            if (elements[i] == 0) {
-                elements[i] = -(i + 1);
-            }
-        }
-        return this;
     }
 }
